@@ -20,7 +20,9 @@ private:
     Item** datos;
     size_t cantidadDatos;
     size_t tamanioMaximo;
+
 public:
+
     // Constructor.
     Vector();
 
@@ -53,6 +55,9 @@ public:
     // Pre: El vector no puede estar vacio. El indice debe ser menor que la cantidad de datos.
     // Post: Devuelve una referencia al dato deseado.
     Item*& operator[](size_t indice);
+
+    void crecer();
+    void reducir();
 
     // Destructor.
     ~Vector();
