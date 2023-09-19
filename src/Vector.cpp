@@ -98,7 +98,13 @@ Vector::tamanio(){
     return this->cantidadDatos;
 }
 
+Item*& 
+Vector::operator[](size_t indice){
+    return this->datos[indice];
+}
+
 Vector::~Vector(){
     while (this->cantidadDatos > 0)
         this->baja();
 }
+
