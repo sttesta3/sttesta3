@@ -4,35 +4,88 @@
 Vector::Vector(){
     this->tamanioMaximo = 0;
     this->cantidadDatos = 0;
+    this->datos = nullptr;
+}
+
+void 
+Vector::crecer(void){
+    size_t nuevo_tamanio = (this->tamanioMaximo == 0) ? 1 : 2 * this->tamanioMaximo;
+    Item** nuevo_vector = new Item* [ nuevo_tamanio ];
+
+    // COPIAR ELEMENTOS. SETEAR A NULL LOS DEMAS
+    for (size_t i = 0; i < this->tamanioMaximo; i++)
+        nuevo_vector[i] = this->datos[i];
+    for (size_t i = this->tamanioMaximo; i < nuevo_tamanio; i++)
+        nuevo_vector[i] = nullptr;
+    
+    // Si existe vector original, eliminalo
+    if (this->tamanioMaximo != 0)
+        delete [] this->datos;
+
+    this->datos = nuevo_vector;
+    this->tamanioMaximo = nuevo_tamanio;
+}
+
+void 
+Vector::reducir(void){
+    size_t nuevo_tamanio = (this->tamanioMaximo == 1) ? 0 : this->tamanioMaximo / 2 ;
+    Item** nuevo_vector = nullptr;
+    
+    if (nuevo_tamanio != 0)
+        nuevo_vector = new Item* [ this->tamanioMaximo / 2 ];
+
+    // COPIAR ELEMENTOS hasta la mitad
+    for (size_t i = 0; i < nuevo_tamanio; i++)
+        nuevo_vector[i] = this->datos[i];
+
+    delete [] this->datos;
+
+    this->datos = nuevo_vector;
+    this->tamanioMaximo = nuevo_tamanio;
 }
 
 void
 Vector::alta(Item* dato){
-    
-    if (this->cantidadDatos == this->tamanioMaximo){
-        //    this->crecer();
-    }
-
-    // Creamos nueva caja y asignamos valor 
-    this->datos[this->cantidadDatos] = new Item;
-    this->datos[this->cantidadDatos] = dato;
-
-    this->cantidadDatos += 1;
+    this->alta(dato, this->cantidadDatos);
 }
 
 void
 Vector::alta(Item* dato, size_t indice){
+    // SI ES NECESARIO, AGRANDAR VECTOR 
+    if (this->cantidadDatos == this->tamanioMaximo)
+        this->crecer();
 
-}
+    // DESPLAZAR LOS VECTORES PARA DEJAR INDICE LIBRE
+    for (size_t i = this->cantidadDatos; i > indice; i--)
+        this->datos[i] = this->datos[i - 1];
 
-Item* 
-Vector::baja(size_t indice){
-
+    this->datos[indice] = new Item;
+    this->datos[indice] = dato;
+    
+    this->cantidadDatos += 1;
 }
 
 Item*
 Vector::baja(){
+    this->baja(this->cantidadDatos - 1);
+}
 
+Item* 
+Vector::baja(size_t indice){
+    Item resultado = *this->datos[indice];
+    delete this->datos[indice];
+
+    for (int i = indice; i < this->cantidadDatos - 1; i++)
+        this->datos[i] = this->datos[i + 1];
+    this->datos[this->cantidadDatos - 1] = nullptr;
+
+    this->cantidadDatos -= 1;
+
+    // Si es necesario, reducir el vector 
+    if ((this->cantidadDatos * 2 == this->tamanioMaximo) || this->cantidadDatos == 0) 
+        this->reducir();
+
+    return &resultado;
 }
 
 bool
