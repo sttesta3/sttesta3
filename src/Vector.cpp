@@ -67,15 +67,15 @@ Vector::alta(Item* dato, size_t indice){
 
 Item*
 Vector::baja(){
-    this->baja(this->cantidadDatos - 1);
+    return this->baja(this->cantidadDatos - 1);
 }
 
 Item* 
 Vector::baja(size_t indice){
     Item resultado = *this->datos[indice];
     delete this->datos[indice];
-
-    for (int i = indice; i < this->cantidadDatos - 1; i++)
+    
+    for (size_t i = indice; i < this->cantidadDatos - 1; i++)
         this->datos[i] = this->datos[i + 1];
     this->datos[this->cantidadDatos - 1] = nullptr;
 
