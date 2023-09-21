@@ -61,7 +61,7 @@ Vector::alta(Item* dato, size_t indice){
     for (size_t i = this->cantidadDatos; i > indice; i--)
         this->datos[i] = this->datos[i - 1];
 
-    this->datos[indice] = new Item(dato->mostrarNombre(),dato->mostrarTipo());
+    this->datos[indice] = dato;
     this->cantidadDatos += 1;
 
 //    std::cout << "DEBUG dato cargado en DIR: " << this->datos[indice] << std::endl;
@@ -75,7 +75,7 @@ Vector::baja(){
 
 Item* 
 Vector::baja(size_t indice){
-    Item* eliminar = this->datos[indice];
+    Item* resultado = this->datos[indice];
 
     for (size_t i = indice; i < this->cantidadDatos - 1; i++)
         this->datos[i] = this->datos[i + 1];
@@ -86,11 +86,8 @@ Vector::baja(size_t indice){
     // Si es necesario, reducir el vector 
     if ((this->cantidadDatos * 2 == this->tamanioMaximo) || this->cantidadDatos == 0) 
         this->reducir();
-
-    Item resultado = Item(eliminar->mostrarNombre(),eliminar->mostrarTipo());
-    delete eliminar;
     
-    return &resultado;
+    return resultado;
 }
 
 bool
