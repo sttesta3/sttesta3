@@ -11,7 +11,7 @@ Menu::Juego(void){
     if ( this->SolicitarRutaArchivoEntrada() )
         this->CargarArchivo();
 
-    std::cout << "TEST SI ESTO FUNCA" << std::endl;
+//    std::cout << "DEBUG: TEST SI ESTO FUNCA" << std::endl;
 
     // LOOP DE ITERACION
     while (this->entrada_usuario.compare("SALIR") ){
@@ -51,13 +51,13 @@ Menu::SolicitarRutaArchivoSalida(){
 size_t 
 Menu::AnalizarEntradaUsuario(){
     size_t resultado = -1;
-    if (this->entrada_usuario.compare("ALTA"))
+    if (this->entrada_usuario == "ALTA")
         resultado = 0;
-    else if (this->entrada_usuario.compare("BAJA"))
+    else if (this->entrada_usuario == "BAJA" )
         resultado = 1;
-    else if (this->entrada_usuario.compare("CONSULTA"))
+    else if (this->entrada_usuario == "CONSULTA" )
         resultado = 2;
-    else if (this->entrada_usuario.compare("SALIR"))
+    else if (this->entrada_usuario == "SALIR" )
         resultado = 3;
     
     return resultado;
@@ -73,7 +73,10 @@ Menu::Alta(){
 
     std::cout << "Tipo de item: " ;
     std::cin >> tipo_item;
-    while( tipo_item.compare(TIPO_CURATIVO) || tipo_item.compare(TIPO_MUNICION) || tipo_item.compare(TIPO_PUZZLE)){
+    std::cout << std::endl;
+//    std::cout << "DEBUG - resultado: " << (tipo_item == TIPO_CURATIVO) << std::endl;
+
+    while( (tipo_item == TIPO_CURATIVO) && (tipo_item == TIPO_MUNICION) && (tipo_item == TIPO_PUZZLE) ){
         std::cout << "Input incorrecto, favor reingresar" << std::endl;
         std::cout << "Tipo de item: " ;
         std::cin >> tipo_item;
@@ -85,20 +88,26 @@ Menu::Alta(){
 
 void 
 Menu::Baja(){
-    // SOLICITAR INPUT USUARIO
-    std::string nombre_item;
-    std::cin >> nombre_item;
+    if (this->inventario.tamanio() > 0){
+        // SOLICITAR INPUT USUARIO
+        std::string nombre_item;
+        std::cout << "Nombre del item: " ;
+        std::cin >> nombre_item;
 
-    // ITERAR HASTA ENCONTRAR ITEM
-    size_t i = 0;
-    while ( !(*this->inventario[i] == nombre_item) && i < this->inventario.tamanio() )
-        i++;
+
+        // ITERAR HASTA ENCONTRAR ITEM
+        size_t i = 0;
+        while ( !(*this->inventario[i] == nombre_item) && i < this->inventario.tamanio() )
+            i++;
     
-    // ELIMINACION
-    if (i == this->inventario.tamanio())
-        std::cout << "Item: " << nombre_item << " no encontrado" << std::endl;
+        // ELIMINACION
+        if (i == this->inventario.tamanio())
+            std::cout << "Item: " << nombre_item << " no encontrado" << std::endl;
+        else
+            delete this->inventario.baja(i);
+    }
     else
-        this->inventario.baja(i);
+        std::cout << "Vector Vacio" << std::endl;
 }
 
 void Menu::Consulta(){
