@@ -35,8 +35,6 @@ public:
     bool operator==(const std::string& s);
 
     // Otros metodos relacionados al uso del item.
-    std::string mostrarNombre();
-    std::string mostrarTipo(); 
 };
 
 #endif

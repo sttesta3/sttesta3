@@ -18,11 +18,3 @@ std::ostream& operator<<(std::ostream& os, const Item& item) {
 bool Item::operator==(const std::string& s) {
     return nombre == s;
 }
-
-std::string Item::mostrarNombre(){
-    return this->nombre;
-}
-
-std::string Item::mostrarTipo(){
-    return this->tipo;
-}
