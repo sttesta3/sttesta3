@@ -3,7 +3,10 @@
 Menu::Menu(){
 
 }
-Menu::~Menu(){}
+Menu::~Menu(){
+    while (this->inventario.tamanio() > 0)
+        delete this->inventario.baja();
+}
 
 void
 Menu::Juego(void){
@@ -112,10 +115,11 @@ Menu::Baja(){
 
 void Menu::Consulta(){
     for (size_t i = 0; i < this->inventario.tamanio(); i++){
-        std::cout << i << ": ";
+        std::cout << (i + 1) << ": ";
         this->inventario[i]->listarInformacion();
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }
 
 void Menu::CargarArchivo(){}
