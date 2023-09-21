@@ -2,6 +2,7 @@
 #define ITEM_H
 
 #include <string>
+#include <iostream>
 
 const std::string TIPO_PUZZLE = "PUZZLE";
 const std::string TIPO_MUNICION = "MUNICION";
@@ -34,6 +35,8 @@ public:
     bool operator==(const std::string& s);
 
     // Otros metodos relacionados al uso del item.
+    std::string mostrarNombre();
+    std::string mostrarTipo(); 
 };
 
 #endif

@@ -9,6 +9,7 @@ Vector::Vector(){
 
 void 
 Vector::crecer(void){
+//    std::cout << "DEBUG: por crecer vector" << std::endl;
     size_t nuevo_tamanio = (this->tamanioMaximo == 0) ? 1 : 2 * this->tamanioMaximo;
     Item** nuevo_vector = new Item* [ nuevo_tamanio ];
 
@@ -28,6 +29,7 @@ Vector::crecer(void){
 
 void 
 Vector::reducir(void){
+//    std::cout << "DEBUG: POR REDUCIR VECTOR" << std::endl;
     size_t nuevo_tamanio = (this->tamanioMaximo == 1) ? 0 : this->tamanioMaximo / 2 ;
     Item** nuevo_vector = nullptr;
     
@@ -59,11 +61,12 @@ Vector::alta(Item* dato, size_t indice){
     for (size_t i = this->cantidadDatos; i > indice; i--)
         this->datos[i] = this->datos[i - 1];
 
-    this->datos[indice] = new Item;
-    this->datos[indice] = dato;
-    
+    this->datos[indice] = new Item(dato->mostrarNombre(),dato->mostrarTipo());
     this->cantidadDatos += 1;
-}
+
+//    std::cout << "DEBUG dato cargado en DIR: " << this->datos[indice] << std::endl;
+//    this->datos[indice]->listarInformacion(); std::cout << std::endl;
+}   
 
 Item*
 Vector::baja(){
@@ -72,9 +75,8 @@ Vector::baja(){
 
 Item* 
 Vector::baja(size_t indice){
-    Item resultado = *this->datos[indice];
-    delete this->datos[indice];
-    
+    Item* eliminar = this->datos[indice];
+
     for (size_t i = indice; i < this->cantidadDatos - 1; i++)
         this->datos[i] = this->datos[i + 1];
     this->datos[this->cantidadDatos - 1] = nullptr;
@@ -85,6 +87,9 @@ Vector::baja(size_t indice){
     if ((this->cantidadDatos * 2 == this->tamanioMaximo) || this->cantidadDatos == 0) 
         this->reducir();
 
+    Item resultado = Item(eliminar->mostrarNombre(),eliminar->mostrarTipo());
+    delete eliminar;
+    
     return &resultado;
 }
 
@@ -104,7 +109,8 @@ Vector::operator[](size_t indice){
 }
 
 Vector::~Vector(){
-    while (this->cantidadDatos > 0)
+    while (this->cantidadDatos > 0){
         this->baja();
+    }
 }
 
