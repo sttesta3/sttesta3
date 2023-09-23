@@ -5,6 +5,8 @@
 #include <exception>
 #include "Item.hpp"
 
+// size_t TAMANIO_MAXIMO = 15;
+
 class VectorException : public std::exception {
     // Excepcion especifica y exclusivamente para errores dentro del VectorTemplate.
     // Usar de la forma "throw VectorException();" cuando una precondicion no se cumpla.
@@ -19,7 +21,8 @@ class Vector {
 private:
     Item** datos;
     size_t cantidadDatos;
-    size_t tamanioMaximo;
+    size_t tamanioAlocado;
+    size_t tamanioMaximo = 15;
 
     void crecer(void);
     void reducir(void);

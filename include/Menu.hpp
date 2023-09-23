@@ -10,9 +10,6 @@ class Menu {
         std::string ruta_archivo_salida = "";
         std::string entrada_usuario = "";
 
-        size_t TAMAÑO_MAXIMO = 15;
-
-
         size_t AnalizarEntradaUsuario();
 
         // METODOS DE INTERACCIÓN CON INVENTARIO
