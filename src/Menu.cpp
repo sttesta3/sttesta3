@@ -224,7 +224,9 @@ void Menu::GuardarArchivo(){
 
     while (this->inventario.tamanio() > 0){
         Item* dato = this->inventario.baja();
-        archivo_salida << dato;
+        linea << dato;
+
+        archivo_salida << linea;
         delete dato;
     }
     archivo_salida.close();
