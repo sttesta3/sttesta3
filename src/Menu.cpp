@@ -116,7 +116,8 @@ Menu::SolicitarRutaArchivoSalida(){
 void
 Menu::SolicitarEntradaUsuario(std::string mensaje){
     std::cout << mensaje;
-    std::cin >> this->entrada_usuario;
+    //std::cin >> this->entrada_usuario;
+    getline(std::cin,this->entrada_usuario);
     std::cout << std::endl;
 }
 

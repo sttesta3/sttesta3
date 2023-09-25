@@ -1,6 +1,5 @@
 #include "Vector.hpp"
 
-
 Vector::Vector(){
     this->tamanioAlocado = 0;
     this->cantidadDatos = 0;
