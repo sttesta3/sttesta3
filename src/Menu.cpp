@@ -69,8 +69,10 @@ Menu::SolicitarRutaArchivoEntrada(){
             this->ruta_archivo_entrada = this->entrada_usuario;
             resultado = true;
         }
-        else
+        else{
             std::cout << "Archivo no encontrado" << std::endl;
+            std::cout << std::endl;
+        }
     }
 
     return resultado;
@@ -197,6 +199,9 @@ Menu::Baja(){
 }
 
 void Menu::Consulta(){
+    if (this->inventario.vacio())
+        std::cout << "Inventario vacio" << std::endl;
+
     for (size_t i = 0; i < this->inventario.tamanio(); i++){
         std::cout << (i + 1) << ": ";
         this->inventario[i]->listarInformacion();
