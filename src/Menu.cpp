@@ -38,80 +38,6 @@ Menu::Juego(void){
     std::cout << "¡Hasta luego!\n" << std::endl;
 }
 
-bool 
-Menu::SolicitarRutaArchivoEntrada(){
-    bool resultado = false;
-
-    // SOLICITAR ENTRADA DE USUARIO
-    this->SolicitarEntradaUsuario("¿Desea cargar desde un savefile?[S/N]: ");
-    while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
-        std::cout << "Entrada invalida, favor reingresar" << std::endl;
-        this->SolicitarEntradaUsuario("¿Desea cargar desde un savefile?[S/N]: ");
-    }
-
-    // Intentar abrir archivo 
-    if (this->entrada_usuario == "S"){
-        this->SolicitarEntradaUsuario("Ingrese ruta a archivo: ");
-        
-        std::ifstream test;
-        test.open(this->entrada_usuario);
-        if (test.is_open()){
-            test.close();
-            this->ruta_archivo_entrada = this->entrada_usuario;
-            resultado = true;
-        }
-        else{
-            std::cout << "Archivo no encontrado" << std::endl;
-            std::cout << std::endl;
-        }
-    }
-
-    return resultado;
-}
-
-bool 
-Menu::SolicitarRutaArchivoSalida(){
-    // Solicitar entrada
-    this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
-    while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
-        std::cout << "Entrada invalida. Favor reingresar" << std::endl;
-        this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
-    }
-
-    bool resultado = (this->entrada_usuario == "S");
-    // Validacion
-    if (resultado){
-        // Preguntar por sobreescritura
-        if (this->ruta_archivo_entrada != ""){
-            this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
-
-            while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
-                std::cout << "Entrada invalida, favor reingresar" << std::endl;
-                this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
-            }
-
-            if (this->entrada_usuario == "S")
-                this->ruta_archivo_salida = this->ruta_archivo_entrada;            
-        }
-
-        if (this->ruta_archivo_entrada != this->ruta_archivo_salida){
-            this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
-
-            std::ofstream test;
-            test.open(this->entrada_usuario);
-            while (!test.is_open()){
-                std::cout << "Entrada invalida, favor reingresar" << std::endl; std::cout << std::endl;
-                this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
-                test.open(this->entrada_usuario);
-            }
-            test.close();
-            this->ruta_archivo_salida = this->entrada_usuario;
-        }
-    }
-    
-    return resultado;
-}
-
 void
 Menu::SolicitarEntradaUsuario(std::string mensaje){
     std::cout << mensaje;
@@ -215,7 +141,6 @@ Menu::CargarArchivo(){
     archivo_entrada.close();
 }
 
-
 void Menu::GuardarArchivo(){
     std::ofstream archivo;
     archivo.open(this->ruta_archivo_salida);
@@ -225,4 +150,75 @@ void Menu::GuardarArchivo(){
         delete dato;
     }
     archivo.close();
+}
+
+bool 
+Menu::SolicitarRutaArchivoEntrada(){
+    // SOLICITAR ENTRADA DE USUARIO
+    this->SolicitarEntradaUsuario("¿Desea cargar desde un savefile?[S/N]: ");
+    while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
+        std::cout << "Entrada invalida, favor reingresar" << std::endl;
+        this->SolicitarEntradaUsuario("¿Desea cargar desde un savefile?[S/N]: ");
+    }
+
+    // Intentar abrir archivo 
+    bool resultado = (this->entrada_usuario == "S");
+    if (resultado){
+        this->SolicitarEntradaUsuario("Ingrese ruta de archivo de carga: ");
+        
+        std::ifstream test;
+        test.open(this->entrada_usuario);
+        while (!test.is_open()){
+            std::cout << "Entrada invalida, favor reingresar" << std::endl; std::cout << std::endl;
+            this->SolicitarEntradaUsuario("Ingrese ruta de archivo de carga: ");
+            test.open(this->entrada_usuario);
+        }
+        test.close();
+        this->ruta_archivo_entrada = this->entrada_usuario;        
+    }
+
+    return resultado;
+}
+
+bool 
+Menu::SolicitarRutaArchivoSalida(){
+    // Solicitar entrada
+    this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
+    while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
+        std::cout << "Entrada invalida. Favor reingresar" << std::endl;
+        this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
+    }
+
+    bool resultado = (this->entrada_usuario == "S");
+    // Validacion
+    if (resultado){
+        // Preguntar por sobreescritura
+        if (this->ruta_archivo_entrada != ""){
+            this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
+
+            while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
+                std::cout << "Entrada invalida, favor reingresar" << std::endl;
+                this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
+            }
+
+            if (this->entrada_usuario == "S")
+                this->ruta_archivo_salida = this->ruta_archivo_entrada;            
+        }
+
+        if ((this->ruta_archivo_entrada != this->ruta_archivo_salida) || this->ruta_archivo_entrada == "" ){
+            this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
+
+            std::ofstream test;
+            test.open(this->entrada_usuario);
+            while (!test.is_open()){
+                std::cout << "Entrada invalida, favor reingresar" << std::endl; std::cout << std::endl;
+                this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
+                test.open(this->entrada_usuario);
+            }
+            test.close();
+            this->ruta_archivo_salida = this->entrada_usuario;
+        }
+    }
+    
+    return resultado;
 }
