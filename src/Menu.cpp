@@ -36,8 +36,8 @@ Menu::Juego(void){
 
     // ARCHIVO salida
     if( this->SolicitarRutaArchivoSalida() )
-        this->GuardarArchivo();
-
+            this->GuardarArchivo();
+    
     std::cout << "¡Hasta luego!\n" << std::endl;
 }
 
@@ -172,12 +172,17 @@ Menu::Baja(){
         std::string nombre_item;
         std::cout << "Nombre del item: " ;
         std::cin >> nombre_item;
-
+        std::cout << std::endl;
 
         // ITERAR HASTA ENCONTRAR ITEM
         size_t i = 0;
-        while ( !(*this->inventario[i] == nombre_item) && i < this->inventario.tamanio() )
-            i++;
+        bool iterar = true;
+        while ( iterar && i < this->inventario.tamanio() ){
+            if (*this->inventario[i] == nombre_item)
+                iterar = false;
+            else
+                i++;
+        }
     
         // ELIMINACION
         if (i == this->inventario.tamanio())
@@ -187,6 +192,8 @@ Menu::Baja(){
     }
     else
         std::cout << "Vector Vacio" << std::endl;
+
+    std::cout << std::endl;
 }
 
 void Menu::Consulta(){
