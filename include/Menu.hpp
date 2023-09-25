@@ -13,13 +13,12 @@ class Menu {
         std::string ruta_archivo_salida = "";
         std::string entrada_usuario = "";
 
-        // Función de analisis de entrada del usuario para menu
         // Pre:
         // Post: Devuelve un size_t segun la entrada del usuario
         size_t AnalizarEntradaUsuario();
 
         // Pre: 
-        // Post: Imprime mensaje y solicita input
+        // Post: Imprime mensaje y solicita input, guardando el mismo en this->entrada_usuario
        void SolicitarEntradaUsuario(std::string mensaje);
         // METODOS DE INTERACCIÓN CON INVENTARIO
 
@@ -30,7 +29,7 @@ class Menu {
         // Post: Solicita entrada y elimina primer aparicion en inventario
         void Baja();
         // Pre:
-        // Post: 
+        // Post: Imprime inventario
         void Consulta();
 
         // METODOS DE MANEJO DE ARCHIVOS

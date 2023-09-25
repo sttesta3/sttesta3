@@ -33,7 +33,7 @@ Menu::Juego(void){
 
     // ARCHIVO salida
     if( this->SolicitarRutaArchivoSalida() )
-            this->GuardarArchivo();
+        this->GuardarArchivo();
     
     std::cout << "¡Hasta luego!\n" << std::endl;
 }
@@ -78,9 +78,10 @@ Menu::SolicitarRutaArchivoSalida(){
         this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
     }
 
+    bool resultado = (this->entrada_usuario == "S");
     // Validacion
-    bool guardar = (this->entrada_usuario == "S");
-    if (guardar){
+    if (resultado){
+        // Preguntar por sobreescritura
         if (this->ruta_archivo_entrada != ""){
             this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
 
@@ -89,28 +90,26 @@ Menu::SolicitarRutaArchivoSalida(){
                 this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
             }
 
-            if (this->entrada_usuario == "N")
-                guardar = false;
-            else
-                this->ruta_archivo_salida = this->ruta_archivo_entrada;
+            if (this->entrada_usuario == "S")
+                this->ruta_archivo_salida = this->ruta_archivo_entrada;            
         }
-        else {
+
+        if (this->ruta_archivo_entrada != this->ruta_archivo_salida){
             this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
 
             std::ofstream test;
             test.open(this->entrada_usuario);
-            if (!test.is_open()){
-                std::cout << "El archivo no fue encontrado y no pudo ser creado." << std::endl;
-                guardar = false;
+            while (!test.is_open()){
+                std::cout << "Entrada invalida, favor reingresar" << std::endl; std::cout << std::endl;
+                this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
+                test.open(this->entrada_usuario);
             }
-            else{
-                test.close();
-                this->ruta_archivo_salida = this->entrada_usuario;
-            }
+            test.close();
+            this->ruta_archivo_salida = this->entrada_usuario;
         }
     }
     
-    return guardar;
+    return resultado;
 }
 
 void
