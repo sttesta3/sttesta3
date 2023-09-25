@@ -14,8 +14,6 @@ Menu::Juego(void){
     if ( this->SolicitarRutaArchivoEntrada() )
         this->CargarArchivo();
 
-//    std::cout << "DEBUG: TEST SI ESTO FUNCA" << std::endl;
-
     // LOOP DE ITERACION
     while (this->entrada_usuario.compare("SALIR") ){
 
@@ -30,7 +28,7 @@ Menu::Juego(void){
             break;
             case 2: this->Consulta();
             break;
-            case 3: std::cout << "¡Hasta luego!\n" << std::endl;
+            case 3: 
             break;
             default: std::cout << "Input invalido, favor reingresar\n" << std::endl;
         }
@@ -39,6 +37,8 @@ Menu::Juego(void){
     // ARCHIVO salida
     if( this->SolicitarRutaArchivoSalida() )
         this->GuardarArchivo();
+
+    std::cout << "¡Hasta luego!\n" << std::endl;
 }
 
 bool 
@@ -118,9 +118,10 @@ Menu::SolicitarRutaArchivoSalida(){
                 std::cout << "El archivo no fue encontrado y no pudo ser creado." << std::endl;
                 guardar = false;
             }
-            else
+            else{
                 test.close();
-
+                this->ruta_archivo_salida = this->entrada_usuario;
+            }
         }
     }
     
@@ -153,7 +154,6 @@ Menu::Alta(){
     std::cout << "Tipo de item: " ;
     std::cin >> tipo_item;
     std::cout << std::endl;
-//    std::cout << "DEBUG - resultado: " << (tipo_item == TIPO_CURATIVO) << std::endl;
 
     while( (tipo_item == TIPO_CURATIVO) && (tipo_item == TIPO_MUNICION) && (tipo_item == TIPO_PUZZLE) ){
         std::cout << "Input incorrecto, favor reingresar" << std::endl;
@@ -218,16 +218,16 @@ Menu::CargarArchivo(){
 
 
 void Menu::GuardarArchivo(){
-    std::ofstream archivo_salida;
-    std::string linea;
-    archivo_salida.open(this->ruta_archivo_salida);
-
+    std::ofstream archivo;
+    archivo.open(this->ruta_archivo_salida);
+    std::cout << "DEBUG: Por iniciar eliminacion" << std::endl;
+    std::cout << "Ruta a archivo: " << this->ruta_archivo_salida; 
     while (this->inventario.tamanio() > 0){
+        std::cout << "DEBUG: Dentro while. Tamanio: " << this->inventario.tamanio() << std::endl;
         Item* dato = this->inventario.baja();
-        linea << dato;
-
-        archivo_salida << linea;
+        std::cout << "DEBUG: Contenido del dato: " << *dato <<std::endl;
+        archivo << *dato << std::endl;
         delete dato;
     }
-    archivo_salida.close();
+    archivo.close();
 }
