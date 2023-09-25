@@ -203,6 +203,7 @@ Menu::CargarArchivo(){
     std::ifstream archivo_entrada;
     std::string nombre,tipo;
 
+//    std::cout << "DEBUG: archivo entrada" << this->ruta_archivo_entrada << std::endl;
     archivo_entrada.open(this->ruta_archivo_entrada);
     bool iterar = true;
     while (iterar){
@@ -212,6 +213,8 @@ Menu::CargarArchivo(){
             Item* dato = new Item(nombre,tipo);
             this->inventario.alta(dato);
         }
+        else
+            iterar = false;
     }
     archivo_entrada.close();
 }
@@ -220,12 +223,8 @@ Menu::CargarArchivo(){
 void Menu::GuardarArchivo(){
     std::ofstream archivo;
     archivo.open(this->ruta_archivo_salida);
-    std::cout << "DEBUG: Por iniciar eliminacion" << std::endl;
-    std::cout << "Ruta a archivo: " << this->ruta_archivo_salida; 
     while (this->inventario.tamanio() > 0){
-        std::cout << "DEBUG: Dentro while. Tamanio: " << this->inventario.tamanio() << std::endl;
-        Item* dato = this->inventario.baja();
-        std::cout << "DEBUG: Contenido del dato: " << *dato <<std::endl;
+        Item* dato = this->inventario.baja(0);
         archivo << *dato << std::endl;
         delete dato;
     }
