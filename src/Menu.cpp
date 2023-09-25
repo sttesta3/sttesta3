@@ -16,10 +16,7 @@ Menu::Juego(void){
 
     // LOOP DE ITERACION
     while (this->entrada_usuario.compare("SALIR") ){
-
-        std::cout << "Accion sobre el inventario: " ;
-        std::cin >> this->entrada_usuario;
-        std::cout << std::endl;
+        this->SolicitarEntradaUsuario("Accion sobre el inventario: ");
 
         switch ( this->AnalizarEntradaUsuario() ){
             case 0: this->Alta();
@@ -46,22 +43,16 @@ Menu::SolicitarRutaArchivoEntrada(){
     bool resultado = false;
 
     // SOLICITAR ENTRADA DE USUARIO
-    std::cout << "¿Desea cargar desde un savefile?[S/N]: ";
-    std::cin >> this->entrada_usuario;
-    std::cout << std::endl;
+    this->SolicitarEntradaUsuario("¿Desea cargar desde un savefile?[S/N]: ");
     while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
         std::cout << "Entrada invalida, favor reingresar" << std::endl;
-        std::cout << "¿Desea cargar desde un savefile?[S/N]: ";
-        std::cin >> this->entrada_usuario;
-        std::cout << std::endl;
+        this->SolicitarEntradaUsuario("¿Desea cargar desde un savefile?[S/N]: ");
     }
 
     // Intentar abrir archivo 
     if (this->entrada_usuario == "S"){
-        std::cout << "Ingrese ruta a archivo: ";
-        std::cin >> this->entrada_usuario;
-        std::cout << std::endl;
-
+        this->SolicitarEntradaUsuario("Ingrese ruta a archivo: ");
+        
         std::ifstream test;
         test.open(this->entrada_usuario);
         if (test.is_open()){
@@ -80,28 +71,22 @@ Menu::SolicitarRutaArchivoEntrada(){
 
 bool 
 Menu::SolicitarRutaArchivoSalida(){
-    std::cout << "¿Desea guardar inventario en savefile?[S/N]: ";
-    std::cin >> this->entrada_usuario;
-    std::cout << std::endl;
-
+    // Solicitar entrada
+    this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
     while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
         std::cout << "Entrada invalida. Favor reingresar" << std::endl;
-        std::cout << "¿Desea guardar inventario en savefile?[S/N]: ";
-        std::cin >> this->entrada_usuario;
-        std::cout << std::endl;
+        this->SolicitarEntradaUsuario("¿Desea guardar inventario en savefile?[S/N]: ");
     }
 
+    // Validacion
     bool guardar = (this->entrada_usuario == "S");
     if (guardar){
         if (this->ruta_archivo_entrada != ""){
-            std::cout << "¿Desea sobreescribir archivo de entrada?[S/N]: ";
-            std::cin >> this->entrada_usuario;
-            std::cout << std::endl;
+            this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
+
             while (this->entrada_usuario != "S" && this->entrada_usuario != "N"){
                 std::cout << "Entrada invalida, favor reingresar" << std::endl;
-                std::cout << "¿Desea sobreescribir archivo de entrada?[S/N]: ";
-                std::cin >> this->entrada_usuario;
-                std::cout << std::endl;
+                this->SolicitarEntradaUsuario("¿Desea sobreescribir archivo de entrada?[S/N]: ");
             }
 
             if (this->entrada_usuario == "N")
@@ -110,9 +95,7 @@ Menu::SolicitarRutaArchivoSalida(){
                 this->ruta_archivo_salida = this->ruta_archivo_entrada;
         }
         else {
-            std::cout << "Ingrese ruta de archivo de guardado: ";
-            std::cin >> this->entrada_usuario;
-            std::cout << std::endl;
+            this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
 
             std::ofstream test;
             test.open(this->entrada_usuario);
@@ -128,6 +111,13 @@ Menu::SolicitarRutaArchivoSalida(){
     }
     
     return guardar;
+}
+
+void
+Menu::SolicitarEntradaUsuario(std::string mensaje){
+    std::cout << mensaje;
+    std::cin >> this->entrada_usuario;
+    std::cout << std::endl;
 }
 
 size_t 
@@ -148,19 +138,15 @@ Menu::AnalizarEntradaUsuario(){
 void 
 Menu::Alta(){
     // SOLICITAR INPUT A USUARIO
-    std::string nombre_item,tipo_item;
-    std::cout << "Nombre del item: " ;
-    std::cin >> nombre_item;
-    std::cout << std::endl;
-
-    std::cout << "Tipo de item: " ;
-    std::cin >> tipo_item;
-    std::cout << std::endl;
+    this->SolicitarEntradaUsuario("Nombre del item: ");
+    std::string nombre_item = this->entrada_usuario;
+    this->SolicitarEntradaUsuario("Tipo del item: ");
+    std::string tipo_item = this->entrada_usuario;
 
     while( (tipo_item == TIPO_CURATIVO) && (tipo_item == TIPO_MUNICION) && (tipo_item == TIPO_PUZZLE) ){
         std::cout << "Input incorrecto, favor reingresar" << std::endl;
-        std::cout << "Tipo de item: " ;
-        std::cin >> tipo_item;
+        this->SolicitarEntradaUsuario("Tipo del item: ");
+        tipo_item = this->entrada_usuario;
     }
     
     Item* agregar = new Item(nombre_item,tipo_item);
@@ -171,10 +157,8 @@ void
 Menu::Baja(){
     if (this->inventario.tamanio() > 0){
         // SOLICITAR INPUT USUARIO
-        std::string nombre_item;
-        std::cout << "Nombre del item: " ;
-        std::cin >> nombre_item;
-        std::cout << std::endl;
+        this->SolicitarEntradaUsuario("Nombre del item: ");
+        std::string nombre_item = this->entrada_usuario;
 
         // ITERAR HASTA ENCONTRAR ITEM
         size_t i = 0;
@@ -188,7 +172,7 @@ Menu::Baja(){
     
         // ELIMINACION
         if (i == this->inventario.tamanio())
-            std::cout << "Item: " << nombre_item << " no encontrado" << std::endl;
+            std::cout << "Item " << nombre_item << " no encontrado" << std::endl;
         else
             delete this->inventario.baja(i);
     }

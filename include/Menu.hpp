@@ -18,6 +18,9 @@ class Menu {
         // Post: Devuelve un size_t segun la entrada del usuario
         size_t AnalizarEntradaUsuario();
 
+        // Pre: 
+        // Post: Imprime mensaje y solicita input
+       void SolicitarEntradaUsuario(std::string mensaje);
         // METODOS DE INTERACCIÓN CON INVENTARIO
 
         // Pre:
