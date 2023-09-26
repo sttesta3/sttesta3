@@ -6,6 +6,9 @@
 #include <string.h>
 #include "Vector.hpp"
 
+const std::string ruta_entrada = "test_csv/inv1.csv";
+const std::string ruta_salida = "";
+
 class Menu {
     private:
         Vector inventario;
@@ -47,6 +50,9 @@ class Menu {
         // Pre:
         // Post: Guarda en variable del menu el nombre del archivo. Si no existe devuelve false
         bool SolicitarRutaArchivoSalida(void);
+        // Pre: bool. True = archivo entrada, False = archivo salida
+        // Post: Validar archivo 
+        void ValidarArchivoPredefinido(bool entrada_salida);
 
     public:
         Menu();

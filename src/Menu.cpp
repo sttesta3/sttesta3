@@ -1,8 +1,10 @@
 #include "Menu.hpp"
 
 Menu::Menu(){
-
+    this->ValidarArchivoPredefinido(true);
+    this->ValidarArchivoPredefinido(false);
 }
+
 Menu::~Menu(){
     while (this->inventario.tamanio() > 0)
         delete this->inventario.baja();
@@ -11,7 +13,11 @@ Menu::~Menu(){
 void
 Menu::Juego(void){
     // ARCHIVO entrada
-    if ( this->SolicitarRutaArchivoEntrada() )
+    if (this->ruta_archivo_entrada == ""){
+        if ( this->SolicitarRutaArchivoEntrada() )
+            this->CargarArchivo();
+    }
+    else
         this->CargarArchivo();
 
     // LOOP DE ITERACION
@@ -32,7 +38,11 @@ Menu::Juego(void){
     }
 
     // ARCHIVO salida
-    if( this->SolicitarRutaArchivoSalida() )
+    if (this->ruta_archivo_salida == ""){
+        if( this->SolicitarRutaArchivoSalida() )
+            this->GuardarArchivo();
+    }
+    else
         this->GuardarArchivo();
     
     std::cout << "¡Hasta luego!\n" << std::endl;
@@ -221,4 +231,19 @@ Menu::SolicitarRutaArchivoSalida(){
     }
     
     return resultado;
+}
+
+void Menu::ValidarArchivoPredefinido(bool entrada_salida){
+    std::fstream archivo;
+    if (entrada_salida)
+        archivo.open(ruta_entrada);
+    else
+        archivo.open(ruta_salida);
+
+    if (archivo.is_open()){
+        if (entrada_salida)
+            this->ruta_archivo_entrada = ruta_entrada;
+        else
+            this->ruta_archivo_salida = ruta_salida;
+    }
 }
