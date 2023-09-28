@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <string.h>
+
+#include "Item.hpp"
 #include "Vector.hpp"
 
 const std::string ruta_entrada = "test_csv/inv_15.csv";
@@ -12,7 +14,7 @@ const size_t TAMANIO_MAXIMO = 15;
 
 class Menu {
     private:
-        Vector inventario;
+        Vector<Item> inventario;
         std::string ruta_archivo_entrada = "";
         std::string ruta_archivo_salida = "";
         std::string entrada_usuario = "";
