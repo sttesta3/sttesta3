@@ -6,8 +6,9 @@
 #include <string.h>
 #include "Vector.hpp"
 
-const std::string ruta_entrada = "test_csv/inv1.csv";
-const std::string ruta_salida = "";
+const std::string ruta_entrada = "test_csv/inv_15.csv";
+const std::string ruta_salida = "test_csv/inv2.csv";
+const size_t TAMANIO_MAXIMO = 15;
 
 class Menu {
     private:
@@ -22,12 +23,16 @@ class Menu {
 
         // Pre: 
         // Post: Imprime mensaje y solicita input, guardando el mismo en this->entrada_usuario
-       void SolicitarEntradaUsuario(std::string mensaje);
+        void SolicitarEntradaUsuario(std::string mensaje);
         // METODOS DE INTERACCIÓN CON INVENTARIO
 
         // Pre:
         // Post: Solicita entrada y carga en inventario
         void Alta();
+
+        // Pre: Item 
+        // Post: 
+        void Alta(std::string nombre, std::string tipo);
         // Pre:
         // Post: Solicita entrada y elimina primer aparicion en inventario
         void Baja();

@@ -21,8 +21,7 @@ class Vector {
 private:
     Item** datos;
     size_t cantidadDatos;
-    size_t tamanioAlocado;
-    size_t tamanioMaximo = 15;
+    size_t tamanioMaximo;
 
     void crecer(void);
     void reducir(void);

@@ -74,19 +74,36 @@ Menu::AnalizarEntradaUsuario(){
 void 
 Menu::Alta(){
     // SOLICITAR INPUT A USUARIO
-    this->SolicitarEntradaUsuario("Nombre del item: ");
-    std::string nombre_item = this->entrada_usuario;
-    this->SolicitarEntradaUsuario("Tipo del item: ");
-    std::string tipo_item = this->entrada_usuario;
-
-    while( (tipo_item == TIPO_CURATIVO) && (tipo_item == TIPO_MUNICION) && (tipo_item == TIPO_PUZZLE) ){
-        std::cout << "Input incorrecto, favor reingresar" << std::endl;
+    if (this->inventario.tamanio() < TAMANIO_MAXIMO){
+        this->SolicitarEntradaUsuario("Nombre del item: ");
+        std::string nombre_item = this->entrada_usuario;
         this->SolicitarEntradaUsuario("Tipo del item: ");
-        tipo_item = this->entrada_usuario;
-    }
+        std::string tipo_item = this->entrada_usuario;
+
+        while( (tipo_item == TIPO_CURATIVO) && (tipo_item == TIPO_MUNICION) && (tipo_item == TIPO_PUZZLE) ){
+            std::cout << "Input incorrecto, favor reingresar" << std::endl;
+            this->SolicitarEntradaUsuario("Tipo del item: ");
+            tipo_item = this->entrada_usuario;
+        }
     
-    Item* agregar = new Item(nombre_item,tipo_item);
-    this->inventario.alta(agregar);
+        this->Alta(nombre_item,tipo_item);
+    }
+    else{
+        std::cout << "Ha alcanzado el maximo tamanio para el inventario" << std::endl;
+        std::cout << std::endl;
+    }
+}
+
+void 
+Menu::Alta(std::string nombre, std::string tipo){
+    if (this->inventario.tamanio() < TAMANIO_MAXIMO){
+        Item* agregar = new Item(nombre,tipo);
+        this->inventario.alta(agregar);
+    }
+    else{
+        std::cout << "Ha alcanzado el maximo tamanio para el inventario" << std::endl;
+        std::cout << std::endl;
+    }
 }
 
 void 
@@ -137,18 +154,19 @@ Menu::CargarArchivo(){
 
 //    std::cout << "DEBUG: archivo entrada" << this->ruta_archivo_entrada << std::endl;
     archivo_entrada.open(this->ruta_archivo_entrada);
-    bool iterar = true;
-    while (iterar){
-        if (getline(archivo_entrada,nombre,',')){
-            getline(archivo_entrada,tipo);
+    
+    while (getline(archivo_entrada,nombre,',') && this->inventario.tamanio() < 15){
+        getline(archivo_entrada,tipo);
 
-            Item* dato = new Item(nombre,tipo);
-            this->inventario.alta(dato);
-        }
-        else
-            iterar = false;
+        this->Alta(nombre,tipo);
     }
     archivo_entrada.close();
+
+    if (this->inventario.tamanio() == 15){
+        std::cout << "Su archivo alcanzó la cantidad maxima de items" << std::endl;
+        std::cout << "Todos los items del 15avo en adelante no serán cargados\n" << std::endl;
+    }
+
 }
 
 void Menu::GuardarArchivo(){

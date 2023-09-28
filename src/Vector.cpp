@@ -1,42 +1,43 @@
 #include "Vector.hpp"
 
 Vector::Vector(){
-    this->tamanioAlocado = 0;
+    this->tamanioMaximo = 0;
     this->cantidadDatos = 0;
     this->datos = nullptr;
 }
 
 void 
 Vector::crecer(void){
-//    std::cout << "DEBUG: por crecer vector" << std::endl;
+    /*
     if (this->cantidadDatos == this->tamanioMaximo)
         throw VectorException();
-
-    size_t nuevo_tamanio = (this->tamanioAlocado == 0) ? 1 : 2 * this->tamanioAlocado;
+    */
+    
+    size_t nuevo_tamanio = (this->tamanioMaximo == 0) ? 1 : 2 * this->tamanioMaximo;
     Item** nuevo_vector = new Item* [ nuevo_tamanio ];
 
     // COPIAR ELEMENTOS. SETEAR A NULL LOS DEMAS
-    for (size_t i = 0; i < this->tamanioAlocado; i++)
+    for (size_t i = 0; i < this->tamanioMaximo; i++)
         nuevo_vector[i] = this->datos[i];
-    for (size_t i = this->tamanioAlocado; i < nuevo_tamanio; i++)
+    for (size_t i = this->tamanioMaximo; i < nuevo_tamanio; i++)
         nuevo_vector[i] = nullptr;
     
     // Si existe vector original, eliminalo
-    if (this->tamanioAlocado != 0)
+    if (this->tamanioMaximo != 0)
         delete [] this->datos;
 
     this->datos = nuevo_vector;
-    this->tamanioAlocado = nuevo_tamanio;
+    this->tamanioMaximo = nuevo_tamanio;
 }
 
 void 
 Vector::reducir(void){
 //    std::cout << "DEBUG: POR REDUCIR VECTOR" << std::endl;
-    size_t nuevo_tamanio = (this->tamanioAlocado == 1) ? 0 : this->tamanioAlocado / 2 ;
+    size_t nuevo_tamanio = (this->tamanioMaximo == 1) ? 0 : this->tamanioMaximo / 2 ;
     Item** nuevo_vector = nullptr;
     
     if (nuevo_tamanio != 0)
-        nuevo_vector = new Item* [ this->tamanioAlocado / 2 ];
+        nuevo_vector = new Item* [ nuevo_tamanio ];
 
     // COPIAR ELEMENTOS hasta la mitad
     for (size_t i = 0; i < nuevo_tamanio; i++)
@@ -45,7 +46,7 @@ Vector::reducir(void){
     delete [] this->datos;
 
     this->datos = nuevo_vector;
-    this->tamanioAlocado = nuevo_tamanio;
+    this->tamanioMaximo = nuevo_tamanio;
 }
 
 void
@@ -57,14 +58,12 @@ void
 Vector::alta(Item* dato, size_t indice){
     //EXCEPCIONES
 
-    if (this->cantidadDatos == this->tamanioMaximo)
-        throw VectorException();
-    else if (indice < 0 || indice > this->cantidadDatos)
+    if (indice < 0 || indice > this->cantidadDatos)
         throw VectorException();
     
     // CODIGO DE IMPLEMENTACION
     // SI ES NECESARIO, AGRANDAR VECTOR 
-    if (this->cantidadDatos == this->tamanioAlocado)
+    if ( this->cantidadDatos == this->tamanioMaximo )
         this->crecer();
 
     // DESPLAZAR LOS VECTORES PARA DEJAR INDICE LIBRE
@@ -100,7 +99,7 @@ Vector::baja(size_t indice){
     this->cantidadDatos -= 1;
 
     // Si es necesario, reducir el vector 
-    if ((this->cantidadDatos * 2 == this->tamanioAlocado) || this->cantidadDatos == 0) 
+    if ((this->cantidadDatos * 2 == this->tamanioMaximo) || this->cantidadDatos == 0) 
         this->reducir();
     
     return resultado;
