@@ -5,3 +5,4 @@
 ## Aclaraciones
 - Ruta predefinida para archivo de carga/guardado ubicada al inicio de include/Menu.hpp
 - Se acepta input de usuario con espacio (ej. "liquido desconocido" es válido)
+- Si intentamos cargar un archivo de 15 lineas o más, se descartan las lineas de la quinceava en adelante (avisando al usuario)

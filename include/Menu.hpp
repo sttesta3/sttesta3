@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string.h>
 
-#include "Item.hpp"
+//#include "Item.hpp"
 #include "Vector.hpp"
 
 const std::string ruta_entrada = "test_csv/inv_15.csv";

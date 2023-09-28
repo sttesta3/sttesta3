@@ -14,6 +14,7 @@ include_directories(src)
 
 add_executable(ayp2_plantilla_tp1_2c2023
         src/Item.cpp
+        src/Vector.cpp
         src/Menu.cpp
         main.cpp
 )

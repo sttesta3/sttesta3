@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <exception>
-
+#include "Item.hpp"
 class VectorException : public std::exception {
     // Excepcion especifica y exclusivamente para errores dentro del VectorTemplate.
     // Usar de la forma "throw VectorException();" cuando una precondicion no se cumpla.
@@ -182,6 +182,5 @@ Vector<Item>::~Vector(){
         this->baja();
     }
 }
-
 
 #endif
