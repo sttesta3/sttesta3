@@ -18,11 +18,15 @@ class VectorException : public std::exception {
 template <typename Item>
 class Vector {
 private:
-    Item** datos;
+    Item* datos;
     size_t cantidadDatos;
     size_t tamanioMaximo;
 
+    // Pre:
+    // Post: Duplica el tamaño del vector
     void crecer(void);
+    // Pre:
+    // Post: Reduce a la mitad el tamaño del vector
     void reducir(void);
 
 public:
@@ -32,21 +36,21 @@ public:
 
     // Pre: -
     // Post: Agrega el dato al final del vector.
-    void alta(Item* dato);
+    void alta(Item dato);
 
     // Pre: El indice debe ser menor o igual que la cantidad de datos.
     // Post: Agrega el dato antes del dato en la posicion indicada, moviendo todos los elementos siguientes. Si el
     // indice es igual a la cantidad de datos, simplemente agrega al final.
-    void alta(Item* dato, size_t indice);
+    void alta(Item dato, size_t indice);
 
     // Pre: El vector no puede estar vacio.
     // Post: Elimina el ultimo dato.
-    Item* baja();
+    Item baja();
 
     // Pre: El vector no puede estar vacio. El indice debe ser menor que la cantidad de datos.
     // Post: Elimina el dato en la posicion indicada, moviendo todos los elementos siguientes. Si el indice es igual a
     // la cantidad de datos - 1, simplemente elimina el ultimo dato.
-    Item* baja(size_t indice);
+    Item baja(size_t indice);
 
     // Pre: -
     // Post: Devuelve true si el vector esta vacio (es decir, si no hay datos).
@@ -58,7 +62,8 @@ public:
 
     // Pre: El vector no puede estar vacio. El indice debe ser menor que la cantidad de datos.
     // Post: Devuelve una referencia al dato deseado.
-    Item*& operator[](size_t indice);
+    Item& operator[](size_t indice);
+
 
     // Destructor.
     ~Vector();
@@ -67,13 +72,16 @@ public:
 template <typename Item>
 void Vector<Item>::crecer(){
     size_t nuevo_tamanio = (this->tamanioMaximo == 0) ? 1 : 2 * this->tamanioMaximo;
-    Item** nuevo_vector = new Item* [ nuevo_tamanio ];
+    Item* nuevo_vector = new Item [ nuevo_tamanio ];
 
     // COPIAR ELEMENTOS. SETEAR A NULL LOS DEMAS
     for (size_t i = 0; i < this->tamanioMaximo; i++)
         nuevo_vector[i] = this->datos[i];
+    
+    /*
     for (size_t i = this->tamanioMaximo; i < nuevo_tamanio; i++)
         nuevo_vector[i] = nullptr;
+    */
     
     // Si existe vector original, eliminalo
     if (this->tamanioMaximo != 0)
@@ -86,10 +94,10 @@ void Vector<Item>::crecer(){
 template <typename Item>
 void Vector<Item>::reducir(){
     size_t nuevo_tamanio = (this->tamanioMaximo == 1) ? 0 : this->tamanioMaximo / 2 ;
-    Item** nuevo_vector = nullptr;
+    Item* nuevo_vector = nullptr;
     
     if (nuevo_tamanio != 0)
-        nuevo_vector = new Item* [ nuevo_tamanio ];
+        nuevo_vector = new Item [ nuevo_tamanio ];
 
     // COPIAR ELEMENTOS hasta la mitad
     for (size_t i = 0; i < nuevo_tamanio; i++)
@@ -109,7 +117,7 @@ Vector<Item>::Vector(){
 }
 
 template <typename Item> 
-void Vector<Item>::alta(Item* dato, size_t indice){
+void Vector<Item>::alta(Item dato, size_t indice){
     //EXCEPCIONES
     if (indice < 0 || indice > this->cantidadDatos)
         throw VectorException();
@@ -128,22 +136,23 @@ void Vector<Item>::alta(Item* dato, size_t indice){
 }
 
 template <typename Item> 
-void Vector<Item>::alta(Item* dato){
+void Vector<Item>::alta(Item dato){
     return this->alta(dato, this->cantidadDatos);
 }
 
 template <typename Item>
-Item* Vector<Item>::baja(size_t indice){
+Item Vector<Item>::baja(size_t indice){
     // EXCEPCIONES 
     if (this->cantidadDatos == 0)
         throw VectorException();
     else if (indice < 0 || indice >= this->cantidadDatos)
         throw VectorException();
 
-    Item* resultado = this->datos[indice];
+    Item resultado = this->datos[indice];
     for (size_t i = indice; i < this->cantidadDatos - 1; i++)
         this->datos[i] = this->datos[i + 1];
-    this->datos[this->cantidadDatos - 1] = nullptr;
+    
+//    this->datos[this->cantidadDatos - 1] = nullptr;
 
     this->cantidadDatos -= 1;
 
@@ -155,7 +164,7 @@ Item* Vector<Item>::baja(size_t indice){
 }
 
 template <typename Item>
-Item* Vector<Item>::baja(){
+Item Vector<Item>::baja(){
     return this->baja(this->cantidadDatos - 1);
 }
 
@@ -170,7 +179,7 @@ size_t Vector<Item>::tamanio(){
 }
 
 template <typename Item>
-Item*&  Vector<Item>::operator[](size_t indice){
+Item&  Vector<Item>::operator[](size_t indice){
     if (indice < 0 || indice >= this->cantidadDatos)
         throw VectorException();
     return this->datos[indice];

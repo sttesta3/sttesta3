@@ -14,7 +14,7 @@ const size_t TAMANIO_MAXIMO = 15;
 
 class Menu {
     private:
-        Vector<Item> inventario;
+        Vector<Item*> inventario;
         std::string ruta_archivo_entrada = "";
         std::string ruta_archivo_salida = "";
         std::string entrada_usuario = "";
