@@ -8,8 +8,8 @@
 //#include "Item.hpp"
 #include "Vector.hpp"
 
-const std::string ruta_entrada = "test_csv/inv_15.csv";
-const std::string ruta_salida = "test_csv/inv2.csv";
+const std::string ruta_entrada = "test_csv/inv_15_2.csv";
+const std::string ruta_salida = "";
 const size_t TAMANIO_MAXIMO = 15;
 
 class Menu {

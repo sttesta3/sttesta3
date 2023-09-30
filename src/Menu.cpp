@@ -149,6 +149,11 @@ void Menu::Consulta(){
 
 void
 Menu::CargarArchivo(){
+    if (this->inventario.tamanio() == 15){
+        std::cout << "Su archivo alcanzó la cantidad maxima de items" << std::endl;
+        std::cout << "Todos los items del 15avo en adelante no serán cargados\n" << std::endl;
+    }
+
     std::ifstream archivo_entrada;
     std::string nombre,tipo;
 
@@ -161,11 +166,6 @@ Menu::CargarArchivo(){
         this->Alta(nombre,tipo);
     }
     archivo_entrada.close();
-
-    if (this->inventario.tamanio() == 15){
-        std::cout << "Su archivo alcanzó la cantidad maxima de items" << std::endl;
-        std::cout << "Todos los items del 15avo en adelante no serán cargados\n" << std::endl;
-    }
 
 }
 
