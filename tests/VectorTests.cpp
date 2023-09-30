@@ -3,7 +3,7 @@
 
 class VectorTests : public ::testing::Test {
 protected:
-    Vector vector{};
+    Vector<Item*> vector{};
     Item* dato{};
     Item* dato1 = new Item("1", "");
     Item* dato2 = new Item("2", "");
