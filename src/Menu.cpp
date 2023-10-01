@@ -143,6 +143,44 @@ void Menu::Consulta(){
     std::cout << std::endl;
 }
 
+bool
+Menu::ProcesarLinea(std::string linea, std::string &nombre, std::string &tipo){
+    bool resultado = true;
+    size_t i = 0;
+    size_t words = 0;
+
+    while ( ( linea[i] != '\0' && linea[i] != '\n' ) && words < 2){
+
+        if ( linea[i] != ','){
+            if (words == 0)
+                nombre += linea[i];
+            else 
+                tipo += linea[i];
+        }
+        else{
+            if (words == 0)
+                nombre += '\0';
+            else 
+                tipo += '\0';
+            words++;
+        }
+        i++;
+    }
+
+    if (words == 0 || words >= 2){
+        std::cout << "ERROR: Linea mal formateada (se descarta la linea)" << std::endl;
+        std::cout << "Linea invalida: " << linea << "\n" <<std::endl;
+        resultado = false;
+    }
+    else if ((tipo != TIPO_CURATIVO) && (tipo != TIPO_MUNICION) && (tipo != TIPO_PUZZLE)){
+        std::cout << "ERROR: Tipo de item invalido (se descarta la linea)" << std::endl;
+        std::cout << "Linea invalida: " << linea << "\n" << std::endl;
+        resultado = false;
+    }
+    
+    return resultado;
+}
+
 void
 Menu::CargarArchivo(){
     if (this->inventario.tamanio() == 15){
@@ -151,22 +189,18 @@ Menu::CargarArchivo(){
     }
 
     std::ifstream archivo_entrada;
-    std::string nombre,tipo;
+    std::string linea;
 
 //    std::cout << "DEBUG: archivo entrada" << this->ruta_archivo_entrada << std::endl;
     archivo_entrada.open(this->ruta_archivo_entrada);
     
-    while (getline(archivo_entrada,nombre,',') && this->inventario.tamanio() < 15){
-        getline(archivo_entrada,tipo);
+    while (getline(archivo_entrada,linea) && this->inventario.tamanio() < 15){
+        std::string nombre = "";
+        std::string tipo = "";
 
-        if ( (tipo == TIPO_CURATIVO) || (tipo == TIPO_MUNICION) || (tipo == TIPO_PUZZLE) )
+        if ( this->ProcesarLinea(linea,nombre,tipo) )
             this->Alta(nombre,tipo);
-        else{
-            std::cout << "Linea de archivo de entrada invalida. Se descarta la misma" << std::endl;
-            std::cout << "Datos invalidos: " << nombre << "," << tipo << "\n" << std::endl;
-        }
     }
-
     archivo_entrada.close();
 
 }

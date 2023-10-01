@@ -28,6 +28,8 @@ class Menu {
         void SolicitarEntradaUsuario(std::string mensaje);
         // METODOS DE INTERACCIÓN CON INVENTARIO
 
+        bool ProcesarLinea(std::string linea, std::string &nombre, std::string &tipo);
+
         // Pre:
         // Post: Solicita entrada y carga en inventario
         void Alta();
