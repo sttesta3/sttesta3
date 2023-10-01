@@ -80,7 +80,7 @@ Menu::Alta(){
         this->SolicitarEntradaUsuario("Tipo del item: ");
         std::string tipo_item = this->entrada_usuario;
 
-        while( (tipo_item == TIPO_CURATIVO) && (tipo_item == TIPO_MUNICION) && (tipo_item == TIPO_PUZZLE) ){
+        while( !(tipo_item == TIPO_CURATIVO) && !(tipo_item == TIPO_MUNICION) && !(tipo_item == TIPO_PUZZLE) ){
             std::cout << "Input incorrecto, favor reingresar" << std::endl;
             this->SolicitarEntradaUsuario("Tipo del item: ");
             tipo_item = this->entrada_usuario;
@@ -88,10 +88,8 @@ Menu::Alta(){
     
         this->Alta(nombre_item,tipo_item);
     }
-    else{
-        std::cout << "Ha alcanzado el maximo tamanio para el inventario" << std::endl;
-        std::cout << std::endl;
-    }
+    else
+        std::cout << "Ha alcanzado el maximo tamanio para el inventario\n" << std::endl;
 }
 
 void 
@@ -100,10 +98,8 @@ Menu::Alta(std::string nombre, std::string tipo){
         Item* agregar = new Item(nombre,tipo);
         this->inventario.alta(agregar);
     }
-    else{
-        std::cout << "Ha alcanzado el maximo tamanio para el inventario" << std::endl;
-        std::cout << std::endl;
-    }
+    else
+        std::cout << "Ha alcanzado el maximo tamanio para el inventario\n" << std::endl;
 }
 
 void 
@@ -197,7 +193,7 @@ Menu::SolicitarRutaArchivoEntrada(){
         std::ifstream test;
         test.open(this->entrada_usuario);
         while (!test.is_open()){
-            std::cout << "Entrada invalida, favor reingresar" << std::endl; std::cout << std::endl;
+            std::cout << "El archivo no pudo ser abierto. Favor reingresar\n" << std::endl;
             this->SolicitarEntradaUsuario("Ingrese ruta de archivo de carga: ");
             test.open(this->entrada_usuario);
         }
@@ -239,7 +235,7 @@ Menu::SolicitarRutaArchivoSalida(){
             std::ofstream test;
             test.open(this->entrada_usuario);
             while (!test.is_open()){
-                std::cout << "Entrada invalida, favor reingresar" << std::endl; std::cout << std::endl;
+                std::cout << "El archivo no pudo ser abierto. favor reingresar\n" << std::endl;
                 this->SolicitarEntradaUsuario("Ingrese ruta de archivo de guardado: ");
                 test.open(this->entrada_usuario);
             }
