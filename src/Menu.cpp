@@ -159,8 +159,14 @@ Menu::CargarArchivo(){
     while (getline(archivo_entrada,nombre,',') && this->inventario.tamanio() < 15){
         getline(archivo_entrada,tipo);
 
-        this->Alta(nombre,tipo);
+        if ( (tipo == TIPO_CURATIVO) || (tipo == TIPO_MUNICION) || (tipo == TIPO_PUZZLE) )
+            this->Alta(nombre,tipo);
+        else{
+            std::cout << "Linea de archivo de entrada invalida. Se descarta la misma" << std::endl;
+            std::cout << "Datos invalidos: " << nombre << "," << tipo << "\n" << std::endl;
+        }
     }
+
     archivo_entrada.close();
 
 }
