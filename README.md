@@ -9,4 +9,5 @@
 
 ## Experience 🥇
 * 💾 Storage & SAN Administrator IBM/KYNDRYL (28/06/2021 – 06/02/2022) 
-* 🐧 Unix administrator IBM/KYNDRYL ( Current position )
+* 🐧 Unix administrator IBM/KYNDRYL ( 06/02/2022 - 07/11/2024 ) 
+* Cloud Storage SRE Huawei Huawei Tech Investment Co. Ltd. ( Current position ) 
